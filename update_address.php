@@ -2,7 +2,7 @@
 include "components/user_header.php";
 
 if ($user_id === '') {
-   header('location:/');
+   header('location:/login.php');
 }
 
 if (isset($_POST['submit'])) {
@@ -34,26 +34,4 @@ if (isset($_POST['submit'])) {
 
 </section>
 
-
-
-
-
-
-
-
-
-
 <?php include 'components/footer.php' ?>
-
-
-
-
-
-
-
-<!-- custom js file link  -->
-<script src="js/script.js"></script>
-
-</body>
-
-</html>

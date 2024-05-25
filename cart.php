@@ -2,7 +2,7 @@
 include 'components/user_header.php';
 
 if ($user_id === '') {
-   header('location:/');
+   header('location:/login.php');
 }
 
 if (isset($_POST['delete'])) {
@@ -88,31 +88,4 @@ $grand_total = 0;
 
 </section>
 
-<!-- shopping cart section ends -->
-
-
-
-
-
-
-
-
-
-
-<!-- footer section starts  -->
 <?php include 'components/footer.php'; ?>
-<!-- footer section ends -->
-
-
-
-
-
-
-
-
-<!-- custom js file link  -->
-<script src="js/script.js"></script>
-
-</body>
-
-</html>

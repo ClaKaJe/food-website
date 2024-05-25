@@ -159,39 +159,7 @@ include 'components/user_header.php'
 
 </section>
 
-<!-- reviews section ends -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- footer section starts  -->
-<?php include 'components/footer.php'; ?>
-<!-- footer section ends -->=
-
-
-
-
-
-
 <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
-
-<!-- custom js file link  -->
-<script src="js/script.js"></script>
 
 <script>
    var swiper = new Swiper(".reviews-slider", {
@@ -216,6 +184,4 @@ include 'components/user_header.php'
    });
 </script>
 
-</body>
-
-</html>
+<?php include 'components/footer.php'; ?>

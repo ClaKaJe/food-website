@@ -126,30 +126,7 @@ include 'components/user_header.php';
 
 </section>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<?php include 'components/footer.php'; ?>
-
-
 <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
-
-<!-- custom js file link  -->
-<script src="js/script.js"></script>
 
 <script>
    var swiper = new Swiper(".hero-slider", {
@@ -163,6 +140,5 @@ include 'components/user_header.php';
    });
 </script>
 
-</body>
 
-</html>
+<?php include 'components/footer.php'; ?>

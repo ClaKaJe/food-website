@@ -1,11 +1,7 @@
 <?php
-// if ($user_id === '') {
-//    header('location:/');
-// }
+session_start();
 
 include 'components/connect.php';
-
-session_start();
 
 if (isset($_SESSION['user_id'])) {
    $user_id = $_SESSION['user_id'];
@@ -14,12 +10,14 @@ if (isset($_SESSION['user_id'])) {
 };
 
 if (isset($message)) {
-   echo '
+   foreach ($message as $message) {
+      echo '
       <div class="message">
          <span>' . $message . '</span>
          <i class="fas fa-times" onclick="this.parentElement.remove();"></i>
       </div>
       ';
+   }
 }
 ?>
 
@@ -48,7 +46,7 @@ if (isset($message)) {
 
       <section class="flex">
 
-         <a href="/" class="logo">yum-yum 😋</a>
+         <a href="/" class="logo"><!-- <img src="images/logo2.png" alt="logo"> -->Nyam nyam 😋</a>
 
          <nav class="navbar">
             <a href="/">home</a>
