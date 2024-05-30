@@ -1,4 +1,7 @@
 <?php
+$title = 'Quick View';
+$page = 'quick_view.php';
+
 include 'components/user_header.php';
 
 include 'components/add_cart.php';

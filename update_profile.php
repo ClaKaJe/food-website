@@ -1,4 +1,7 @@
 <?php
+$title = 'Update Profile';
+$page = 'update_profile.php';
+
 include "components/user_header.php";
 
 if ($user_id === '') {

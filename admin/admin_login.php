@@ -14,7 +14,8 @@ if (isset($_POST['submit'])) {
    if ($select_admin->rowCount() > 0) {
       $fetch_admin_id = $select_admin->fetch(PDO::FETCH_ASSOC);
       $_SESSION['admin_id'] = $fetch_admin_id['id'];
-      header('location:dashboard.php');
+      $redirect_page = $_COOKIE['redirect_page'];
+      isset($redirect_page) ? header('location:'.$redirect_page) : header('location:dashboard');
    } else {
       $message[] = 'incorrect username or password!';
    }

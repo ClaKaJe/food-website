@@ -1,4 +1,7 @@
 <?php
+$title = 'Cart';
+$page = 'cart.php';
+
 include 'components/user_header.php';
 
 if ($user_id === '') {

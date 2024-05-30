@@ -1,4 +1,7 @@
 <?php
+$title = 'Orders';
+$page = 'orders.php';
+
 include "components/user_header.php";
 
 if ($user_id === '') {

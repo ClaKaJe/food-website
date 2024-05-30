@@ -1,4 +1,6 @@
 <?php
+$title = 'Login';
+
 include 'components/user_header.php';
 
 if (isset($_POST['submit'])) {
@@ -12,7 +14,8 @@ if (isset($_POST['submit'])) {
 
    if ($select_user->rowCount() > 0) {
       $_SESSION['user_id'] = $row['id'];
-      header('location:/');
+      $redirect_page = $_COOKIE['redirect_page'];
+      isset($redirect_page) ? header('location:'.$redirect_page) : header('location:/');
    } else {
       $message[] = 'incorrect username or password!';
    }

@@ -1,5 +1,6 @@
 <?php
 $title = 'Users Accounts';
+$page = 'users_accounts.php';
 
 include '../components/admin_header.php';
 

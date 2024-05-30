@@ -1,4 +1,6 @@
 <?php
+$title = 'Category';
+
 include 'components/user_header.php';
 
 include 'components/add_cart.php';

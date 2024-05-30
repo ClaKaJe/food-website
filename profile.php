@@ -1,4 +1,7 @@
 <?php
+$title = 'Profile';
+$page = 'profile.php';
+
 include "components/user_header.php";
 
 if ($user_id === '') {

@@ -1,4 +1,6 @@
 <?php
+$title = 'Register';
+
 include "components/user_header.php";
 
 if (isset($_POST['submit'])) {

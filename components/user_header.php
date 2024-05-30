@@ -3,17 +3,20 @@ session_start();
 
 include 'components/connect.php';
 
+setcookie("redirect_page", $page, time() + 3600);
 if (isset($_SESSION['user_id'])) {
    $user_id = $_SESSION['user_id'];
 } else {
    $user_id = '';
 };
 
+echo $message;
+
 if (isset($message)) {
-   foreach ($message as $message) {
+   foreach ($message as $msg) {
       echo '
       <div class="message">
-         <span>' . $message . '</span>
+         <span>' . $msg . '</span>
          <i class="fas fa-times" onclick="this.parentElement.remove();"></i>
       </div>
       ';
@@ -28,7 +31,7 @@ if (isset($message)) {
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>home</title>
+   <title><?= $title ?></title>
 
    <link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css" />
 

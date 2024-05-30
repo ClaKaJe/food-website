@@ -1,5 +1,6 @@
 <?php
 $title = 'Update Products';
+$page = 'update_product.php';
 
 include '../components/admin_header.php';
 

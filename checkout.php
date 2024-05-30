@@ -1,4 +1,7 @@
 <?php
+$title = 'Checkout';
+$page = 'checkout.php';
+
 include 'components/user_header.php';
 
 if ($user_id === '') {

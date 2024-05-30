@@ -1,4 +1,6 @@
 <?php
+$title = 'Contact';
+
 include "components/user_header.php";
 
 if (isset($_POST['send'])) {

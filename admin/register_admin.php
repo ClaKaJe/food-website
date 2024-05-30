@@ -1,5 +1,6 @@
 <?php
 $title = 'Register Admin';
+$page = 'register_admin.php';
 
 include '../components/admin_header.php';
 

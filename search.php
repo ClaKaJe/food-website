@@ -1,11 +1,13 @@
 <?php
+$title = 'Search';
+
 include "components/user_header.php";
 
 include 'components/add_cart.php';
 ?>
 
 <section class="search-form">
-   <form method="post" action="">
+   <form method="get" action="">
       <input type="text" name="search_box" placeholder="search here..." class="box">
       <button type="submit" name="search_btn" class="fas fa-search"></button>
    </form>
@@ -19,14 +21,14 @@ include 'components/add_cart.php';
    <div class="box-container">
 
       <?php
-      if (isset($_POST['search_box']) or isset($_POST['search_btn'])) {
-         $search_box = $_POST['search_box'];
+      if (isset($_GET['search_box']) or isset($_GET['search_btn'])) {
+         $search_box = $_GET['search_box'];
          $select_products = $conn->prepare("SELECT * FROM `products` WHERE name LIKE '%{$search_box}%'");
          $select_products->execute();
          if ($select_products->rowCount() > 0) {
             while ($fetch_products = $select_products->fetch(PDO::FETCH_ASSOC)) {
       ?>
-               <form action="" method="post" class="box">
+               <form action="" method="get" class="box">
                   <input type="hidden" name="pid" value="<?= $fetch_products['id']; ?>">
                   <input type="hidden" name="name" value="<?= $fetch_products['name']; ?>">
                   <input type="hidden" name="price" value="<?= $fetch_products['price']; ?>">

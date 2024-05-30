@@ -1,6 +1,6 @@
 <?php
 $title = 'Admin Account';
-$page = 'admin_accounts';
+$page = 'admin_accounts.php';
 
 include '../components/admin_header.php';
 

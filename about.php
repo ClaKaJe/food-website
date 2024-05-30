@@ -1,5 +1,5 @@
 <?php
-include 'components/connect.php';
+$title = 'About';
 
 include 'components/user_header.php'
 ?>

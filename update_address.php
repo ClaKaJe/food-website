@@ -1,4 +1,7 @@
 <?php
+$title = 'Update Address';
+$page = 'update_address.php';
+
 include "components/user_header.php";
 
 if ($user_id === '') {

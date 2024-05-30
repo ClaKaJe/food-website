@@ -1,5 +1,6 @@
 <?php
 $title = 'Update Profile';
+$page = 'update_profile.php';
 
 include '../components/admin_header.php';
 

@@ -1,5 +1,6 @@
 <?php
 $title = 'Products';
+$page = 'products.php';
 
 include '../components/admin_header.php';
 

@@ -1,5 +1,6 @@
 <?php
 $title = 'Dashboard';
+$page = 'dashboard.php';
 
 include '../components/admin_header.php';
 ?>

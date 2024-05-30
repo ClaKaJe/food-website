@@ -1,5 +1,6 @@
 <?php
 $title = 'Placed orders';
+$page = 'placed_orders.php';
 
 include '../components/admin_header.php';
 

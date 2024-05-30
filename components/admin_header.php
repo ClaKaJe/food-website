@@ -6,6 +6,7 @@ include '../components/connect.php';
 $admin_id = $_SESSION['admin_id'];
 
 if (!isset($admin_id) && $title !== 'Admin Login') {
+   setcookie("redirect_page", $page, time() + 3600);
    header('location:admin_login.php');
 }
 

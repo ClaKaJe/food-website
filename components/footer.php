@@ -12,7 +12,7 @@
       <div class="box">
          <img src="images/clock-icon.png" alt="">
          <h3>opening hours</h3>
-         <p>00:07am to 00:10pm</p>
+         <p>07:00am to 10:00pm</p>
       </div>
 
       <div class="box">

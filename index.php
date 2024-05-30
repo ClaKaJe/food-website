@@ -1,7 +1,9 @@
 <?php
-include 'components/add_cart.php';
+$title = 'Home';
 
 include 'components/user_header.php';
+
+include 'components/add_cart.php';
 ?>
 
 <section class="hero">
@@ -121,7 +123,7 @@ include 'components/user_header.php';
    </div>
 
    <div class="more-btn">
-      <a href="menu.html" class="btn">veiw all</a>
+      <a href="menu.php" class="btn">veiw all</a>
    </div>
 
 </section>
