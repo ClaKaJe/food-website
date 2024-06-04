@@ -24,6 +24,9 @@ include 'components/add_cart.php';
       $select_products->execute();
       if ($select_products->rowCount() > 0) {
          while ($fetch_products = $select_products->fetch(PDO::FETCH_ASSOC)) {
+            $select_category = $conn->prepare("SELECT * FROM `categories` WHERE id = ?");
+            $select_category->execute([$fetch_products['categories_id']]);
+            $category = $select_category->fetch(PDO::FETCH_ASSOC);
       ?>
             <form action="" method="post" class="box">
                <input type="hidden" name="pid" value="<?= $fetch_products['id']; ?>">
@@ -33,7 +36,7 @@ include 'components/add_cart.php';
                <a href="quick_view.php?pid=<?= $fetch_products['id']; ?>" class="fas fa-eye"></a>
                <button type="submit" class="fas fa-shopping-cart" name="add_to_cart"></button>
                <img src="uploaded_img/<?= $fetch_products['image']; ?>" alt="">
-               <a href="category.php?category=<?= $fetch_products['category']; ?>" class="cat"><?= $fetch_products['category']; ?></a>
+               <a href="category.php?category=<?= $category['name'] ?>" class="cat"><?= $category['name'] ?></a>
                <div class="name"><?= $fetch_products['name']; ?></div>
                <div class="flex">
                   <div class="price"><span>$</span><?= $fetch_products['price']; ?></div>

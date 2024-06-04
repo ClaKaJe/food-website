@@ -14,7 +14,11 @@ include 'components/add_cart.php';
 
       <?php
       $category = $_GET['category'];
-      $select_products = $conn->prepare("SELECT * FROM `products` WHERE category = ?");
+      // $select_products = $conn->prepare("SELECT * FROM `products` WHERE category = ?");
+      $select_products = $conn->prepare(
+         "SELECT *
+         FROM `products`
+         WHERE categories_id = (SELECT id FROM categories WHERE name = ?)");
       $select_products->execute([$category]);
       if ($select_products->rowCount() > 0) {
          while ($fetch_products = $select_products->fetch(PDO::FETCH_ASSOC)) {

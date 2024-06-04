@@ -27,7 +27,7 @@ include 'components/add_cart.php';
             <div class="content">
                <span>order online</span>
                <h3>chezzy hamburger</h3>
-               <a href="menu.html" class="btn">see menus</a>
+               <a href="menu.php" class="btn">see menus</a>
             </div>
             <div class="image">
                <img src="images/home-img-2.png" alt="">
@@ -38,7 +38,7 @@ include 'components/add_cart.php';
             <div class="content">
                <span>order online</span>
                <h3>rosted chicken</h3>
-               <a href="menu.html" class="btn">see menus</a>
+               <a href="menu.php" class="btn">see menus</a>
             </div>
             <div class="image">
                <img src="images/home-img-3.png" alt="">
@@ -93,10 +93,13 @@ include 'components/add_cart.php';
    <div class="box-container">
 
       <?php
-      $select_products = $conn->prepare("SELECT * FROM `products` LIMIT 6");
+      $select_products = $conn->prepare("SELECT * FROM `products` ORDER BY created_at DESC LIMIT 6");
       $select_products->execute();
       if ($select_products->rowCount() > 0) {
          while ($fetch_products = $select_products->fetch(PDO::FETCH_ASSOC)) {
+            $select_category_name = $conn->prepare("SELECT * FROM `categories` WHERE id = ?");
+            $select_category_name->execute([$fetch_products['categories_id']]);
+            $category = $select_category_name->fetch(PDO::FETCH_ASSOC)['name'];
       ?>
             <form action="" method="post" class="box">
                <input type="hidden" name="pid" value="<?= $fetch_products['id']; ?>">
@@ -106,7 +109,7 @@ include 'components/add_cart.php';
                <a href="quick_view.php?pid=<?= $fetch_products['id']; ?>" class="fas fa-eye"></a>
                <button type="submit" class="fas fa-shopping-cart" name="add_to_cart"></button>
                <img src="uploaded_img/<?= $fetch_products['image']; ?>" alt="">
-               <a href="category.php?category=<?= $fetch_products['category']; ?>" class="cat"><?= $fetch_products['category']; ?></a>
+               <a href="category.php?category=<?= $category; ?>" class="cat"><?= $category; ?></a>
                <div class="name"><?= $fetch_products['name']; ?></div>
                <div class="flex">
                   <div class="price"><span>$</span><?= $fetch_products['price']; ?></div>

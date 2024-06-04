@@ -8,6 +8,12 @@ if (isset($_POST['add_product'])) {
    $name = $_POST['name'];
    $price = $_POST['price'];
    $category = $_POST['category'];
+   $admin_id = $_SESSION['admin_id'];
+
+   $select_category_id = $conn->prepare("SELECT * FROM `categories` WHERE name = ?");
+   $select_products->execute([$category]);
+
+   $category_id = $select_category_id->fetch(PDO::FETCH_ASSOC)['id'];
 
    $image = $_FILES['image']['name'];
    $image_size = $_FILES['image']['size'];
@@ -25,8 +31,8 @@ if (isset($_POST['add_product'])) {
       } else {
          move_uploaded_file($image_tmp_name, $image_folder);
 
-         $insert_product = $conn->prepare("INSERT INTO `products`(name, category, price, image) VALUES(?,?,?,?)");
-         $insert_product->execute([$name, $category, $price, $image]);
+         $insert_product = $conn->prepare("INSERT INTO `products`(admin_id, name, categories_id, price, image) VALUES(?,?,?,?)");
+         $insert_product->execute([$admin_id ,$name, $category_id, $price, $image]);
 
          $message[] = 'new product added!';
       }

@@ -20,11 +20,20 @@ if ($user_id === '') {
       <p><i class="fas fa-phone"></i><span><?= $fetch_profile['number']; ?></span></p>
       <p><i class="fas fa-envelope"></i><span><?= $fetch_profile['email']; ?></span></p>
       <a href="update_profile.php" class="btn">update info</a>
-      <p class="address"><i class="fas fa-map-marker-alt"></i><span><?php if ($fetch_profile['address'] == '') {
-                                                                        echo 'please enter your address';
-                                                                     } else {
-                                                                        echo $fetch_profile['address'];
-                                                                     } ?></span></p>
+      <p class="address">
+         <i class="fas fa-map-marker-alt"></i>
+         <span>
+            <?php
+            $address = $conn->prepare("SELECT * FROM `address` WHERE id = ?");
+            $address->execute([$fetch_profile['address_id']]);
+            $fetch_address = $address->fetch(PDO::FETCH_ASSOC);
+
+            $address_str = $fetch_address['country_name'] . ', ' . $fetch_address['state_name'] . ', ' . $fetch_address['city_name'] . ' - ' . $fetch_address['pin_code'];
+
+            echo $address_str;
+            ?>
+         </span>
+      </p>
       <a href="update_address.php" class="btn">update address</a>
    </div>
 

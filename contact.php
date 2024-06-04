@@ -3,22 +3,23 @@ $title = 'Contact';
 
 include "components/user_header.php";
 
+if ($user_id === '') {
+   header('location:/login.php');
+}
+
 if (isset($_POST['send'])) {
 
-   $name = $_POST['name'];
-   $email = $_POST['email'];
-   $number = $_POST['number'];
    $msg = $_POST['msg'];
 
-   $select_message = $conn->prepare("SELECT * FROM `messages` WHERE name = ? AND email = ? AND number = ? AND message = ?");
-   $select_message->execute([$name, $email, $number, $msg]);
+   $select_message = $conn->prepare("SELECT * FROM `messages` WHERE user_id = ? AND message = ?");
+   $select_message->execute([$user_id, $msg]);
 
    if ($select_message->rowCount() > 0) {
       $message[] = 'already sent message!';
    } else {
 
-      $insert_message = $conn->prepare("INSERT INTO `messages`(user_id, name, email, number, message) VALUES(?,?,?,?,?)");
-      $insert_message->execute([$user_id, $name, $email, $number, $msg]);
+      $insert_message = $conn->prepare("INSERT INTO `messages`(user_id, message) VALUES(?,?)");
+      $insert_message->execute([$user_id, $msg]);
 
       $message[] = 'sent message successfully!';
    }
@@ -43,9 +44,9 @@ if (isset($_POST['send'])) {
 
       <form action="" method="post">
          <h3>tell us something!</h3>
-         <input type="text" name="name" maxlength="50" class="box" placeholder="enter your name" required>
-         <input type="number" name="number" min="0" max="9999999999" class="box" placeholder="enter your number" required maxlength="10">
-         <input type="email" name="email" maxlength="50" class="box" placeholder="enter your email" required>
+         <input type="text" name="name" disabled maxlength="50" class="box" value="<?= $fetch_profile['name']; ?>" placeholder="enter your name" required>
+         <input type="number" name="number" disabled min="0" max="9999999999" class="box" value="<?= $fetch_profile['number']; ?>" placeholder="enter your number" required maxlength="10">
+         <input type="email" name="email" disabled maxlength="50" class="box" placeholder="enter your email" value="<?= $fetch_profile['email']; ?>" required>
          <textarea name="msg" class="box" required placeholder="enter your message" maxlength="500" cols="30" rows="10"></textarea>
          <input type="submit" value="send message" name="send" class="btn">
       </form>

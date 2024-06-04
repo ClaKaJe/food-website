@@ -30,6 +30,13 @@ if (isset($_POST['submit'])) {
          $insert_order = $conn->prepare("INSERT INTO `orders`(user_id, name, number, email, method, address, total_products, total_price) VALUES(?,?,?,?,?,?,?,?)");
          $insert_order->execute([$user_id, $name, $number, $email, $method, $address, $total_products, $total_price]);
 
+         // $payment_method = $conn->prepare("SELECT * from `payment_method` WHERE name = ?");
+         // $payment_method->execute([$method]);
+         // $fetch_payment_method = $payment_method->fetch(PDO::FETCH_ASSOC);
+
+         // $insert_order = $conn->prepare("INSERT INTO `orders`(user_id, payment_method_id, total_products, total_price) VALUES(?,?,?,?)");
+         // $insert_order->execute([$user_id, $fetch_payement_method['id'], $total_products, $total_price]);
+
          $delete_cart = $conn->prepare("DELETE FROM `cart` WHERE user_id = ?");
          $delete_cart->execute([$user_id]);
 

@@ -35,7 +35,8 @@ CREATE TABLE `products` (
   `admin_id` int(100),
   `name` varchar(100),
   `price` int(10),
-  `image` varchar(100)
+  `image` varchar(100),
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE `address` (
