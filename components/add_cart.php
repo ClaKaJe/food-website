@@ -18,8 +18,8 @@ if(isset($_POST['add_to_cart'])){
       if($check_cart_numbers->rowCount() > 0){
          $message[] = 'already added to cart!';
       }else{
-         $insert_cart = $conn->prepare("INSERT INTO `cart`(user_id, pid, name, price, quantity, image) VALUES(?,?,?,?,?,?)");
-         $insert_cart->execute([$user_id, $pid, $name, $price, $qty, $image]);
+         $insert_cart = $conn->prepare("INSERT INTO `cart`(user_id, name, price, quantity, image) VALUES(?,?,?,?,?)");
+         $insert_cart->execute([$user_id, $name, $price, $qty, $image]);
          $message[] = 'added to cart!';
          
       }

@@ -22,26 +22,17 @@ if (isset($_POST['submit'])) {
    $check_cart->execute([$user_id]);
 
    if ($check_cart->rowCount() > 0) {
+      $payment_method = $conn->prepare("SELECT * from `payment_method` WHERE name = ?");
+      $payment_method->execute([$method]);
+      $fetch_payment_method = $payment_method->fetch(PDO::FETCH_ASSOC);
 
-      if ($address == '') {
-         $message[] = 'please add your address!';
-      } else {
+      $insert_order = $conn->prepare("INSERT INTO `orders`(user_id, payment_method_id, total_products, total_price, payment_status) VALUES(?,?,?,?,?)");
+      $insert_order->execute([$user_id, $fetch_payement_method['id'], $total_products, $total_price, 'pending']);
 
-         $insert_order = $conn->prepare("INSERT INTO `orders`(user_id, name, number, email, method, address, total_products, total_price) VALUES(?,?,?,?,?,?,?,?)");
-         $insert_order->execute([$user_id, $name, $number, $email, $method, $address, $total_products, $total_price]);
+      $delete_cart = $conn->prepare("DELETE FROM `cart` WHERE user_id = ?");
+      $delete_cart->execute([$user_id]);
 
-         // $payment_method = $conn->prepare("SELECT * from `payment_method` WHERE name = ?");
-         // $payment_method->execute([$method]);
-         // $fetch_payment_method = $payment_method->fetch(PDO::FETCH_ASSOC);
-
-         // $insert_order = $conn->prepare("INSERT INTO `orders`(user_id, payment_method_id, total_products, total_price) VALUES(?,?,?,?)");
-         // $insert_order->execute([$user_id, $fetch_payement_method['id'], $total_products, $total_price]);
-
-         $delete_cart = $conn->prepare("DELETE FROM `cart` WHERE user_id = ?");
-         $delete_cart->execute([$user_id]);
-
-         $message[] = 'order placed successfully!';
-      }
+      $message[] = 'order placed successfully!';
    } else {
       $message[] = 'your cart is empty';
    }
@@ -98,11 +89,20 @@ if (isset($_POST['submit'])) {
          <p><i class="fas fa-envelope"></i><span><?= $fetch_profile['email'] ?></span></p>
          <a href="update_profile.php" class="btn">update info</a>
          <h3>delivery address</h3>
-         <p><i class="fas fa-map-marker-alt"></i><span><?php if ($fetch_profile['address'] == '') {
-                                                            echo 'please enter your address';
-                                                         } else {
-                                                            echo $fetch_profile['address'];
-                                                         } ?></span></p>
+         <p>
+            <i class="fas fa-map-marker-alt"></i>
+            <span>
+               <?php
+               $address = $conn->prepare("SELECT * FROM `address` WHERE id = ?");
+               $address->execute([$fetch_profile['address_id']]);
+               $fetch_address = $address->fetch(PDO::FETCH_ASSOC);
+
+               $address_str = $fetch_address['country_name'] . ', ' . $fetch_address['state_name'] . ', ' . $fetch_address['city_name'] . ' - ' . $fetch_address['pin_code'];
+
+               echo $address_str;
+               ?>
+            </span>
+         </p>
          <a href="update_address.php" class="btn">update address</a>
          <select name="method" class="box" required>
             <option value="" disabled selected>select payment method --</option>
@@ -111,9 +111,7 @@ if (isset($_POST['submit'])) {
             <option value="paytm">paytm</option>
             <option value="paypal">paypal</option>
          </select>
-         <input type="submit" value="place order" class="btn <?php if ($fetch_profile['address'] == '') {
-                                                                  echo 'disabled';
-                                                               } ?>" style="width:100%; background:var(--red); color:var(--white);" name="submit">
+         <input type="submit" value="place order" class="btn" style="width:100%; background:var(--red); color:var(--white);" name="submit">
       </div>
 
    </form>

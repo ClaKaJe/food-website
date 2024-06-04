@@ -5,13 +5,16 @@ $page = 'products.php';
 include '../components/admin_header.php';
 
 if (isset($_POST['add_product'])) {
+   $description = $_POST['description'];
    $name = $_POST['name'];
    $price = $_POST['price'];
    $category = $_POST['category'];
-   $admin_id = $_SESSION['admin_id'];
+
+   echo $category;
+   var_dump($message);
 
    $select_category_id = $conn->prepare("SELECT * FROM `categories` WHERE name = ?");
-   $select_products->execute([$category]);
+   $select_category_id->execute([$category]);
 
    $category_id = $select_category_id->fetch(PDO::FETCH_ASSOC)['id'];
 
@@ -31,8 +34,8 @@ if (isset($_POST['add_product'])) {
       } else {
          move_uploaded_file($image_tmp_name, $image_folder);
 
-         $insert_product = $conn->prepare("INSERT INTO `products`(admin_id, name, categories_id, price, image) VALUES(?,?,?,?)");
-         $insert_product->execute([$admin_id ,$name, $category_id, $price, $image]);
+         $insert_product = $conn->prepare("INSERT INTO `products`(name, categories_id, price, image, description) VALUES(?,?,?,?,?)");
+         $insert_product->execute([$name, $category_id, $price, $image, $description]);
 
          $message[] = 'new product added!';
       }
@@ -48,14 +51,12 @@ if (isset($_GET['delete'])) {
    unlink('../uploaded_img/' . $fetch_delete_image['image']);
    $delete_product = $conn->prepare("DELETE FROM `products` WHERE id = ?");
    $delete_product->execute([$delete_id]);
-   $delete_cart = $conn->prepare("DELETE FROM `cart` WHERE pid = ?");
+   $delete_cart = $conn->prepare("DELETE FROM `cart` WHERE id = ?");
    $delete_cart->execute([$delete_id]);
    header('location:products.php');
 }
 
 ?>
-
-<!-- add products section starts  -->
 
 <section class="add-products">
 
@@ -63,6 +64,7 @@ if (isset($_GET['delete'])) {
       <h3>add product</h3>
       <input type="text" required placeholder="enter product name" name="name" maxlength="100" class="box">
       <input type="number" min="0" max="9999999999" required placeholder="enter product price" name="price" onkeypress="if(this.value.length == 10) return false;" class="box">
+      <textarea type="text" placeholder="enter product's description" name="description" maxlength="500" cols="10" class="box"></textarea>
       <select name="category" class="box" required>
          <option value="" disabled selected>select category --</option>
          <option value="main dish">main dish</option>
@@ -75,10 +77,6 @@ if (isset($_GET['delete'])) {
    </form>
 
 </section>
-
-<!-- add products section ends -->
-
-<!-- show products section starts  -->
 
 <section class="show-products" style="padding-top: 0;">
 
@@ -94,7 +92,14 @@ if (isset($_GET['delete'])) {
                <img src="../uploaded_img/<?= $fetch_products['image']; ?>" alt="">
                <div class="flex">
                   <div class="price"><span>$</span><?= $fetch_products['price']; ?><span>/-</span></div>
-                  <div class="category"><?= $fetch_products['category']; ?></div>
+                  <div class="category">
+                     <?php
+                     $categories = $conn->prepare("SELECT * FROM `categories` WHERE id = ?");
+                     $categories->execute([$fetch_products['categories_id']]);
+
+                     echo $categories->fetch(PDO::FETCH_ASSOC)['name'];
+                     ?>
+                  </div>
                </div>
                <div class="name"><?= $fetch_products['name']; ?></div>
                <div class="flex-btn">

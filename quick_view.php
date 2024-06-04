@@ -30,6 +30,10 @@ include 'components/add_cart.php';
                <div class="price"><span>$</span><?= $fetch_products['price']; ?></div>
                <input type="number" name="qty" class="qty" min="1" max="99" value="1" maxlength="2">
             </div>
+            <div class="name">
+               <?= $fetch_products['description'] ?>
+            </div>
+
             <button type="submit" name="add_to_cart" class="cart-btn">add to cart</button>
          </form>
    <?php

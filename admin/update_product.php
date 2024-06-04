@@ -4,14 +4,23 @@ $page = 'update_product.php';
 
 include '../components/admin_header.php';
 
+function get_category(PDO $conn, string $table): string
+{
+   $categories = $conn->prepare("SELECT * FROM `categories` WHERE id = (SELECT categories_id FROM `products` WHERE id = ?) ");
+   $categories->execute([$_GET['update']]);
+
+   return $categories->fetch(PDO::FETCH_ASSOC)[$table];
+}
+
 if (isset($_POST['update'])) {
    $pid = $_POST['pid'];
+   $description = $_POST['description'];
    $name = $_POST['name'];
    $price = $_POST['price'];
-   $category = $_POST['category'];
+   $category_id = get_category($conn, 'id');
 
-   $update_product = $conn->prepare("UPDATE `products` SET name = ?, category = ?, price = ? WHERE id = ?");
-   $update_product->execute([$name, $category, $price, $pid]);
+   $update_product = $conn->prepare("UPDATE `products` SET name = ?, categories_id = ?, price = ?, description = ? WHERE id = ?");
+   $update_product->execute([$name, $category_id, $price, $description, $pid]);
 
    $message[] = 'product updated!';
 
@@ -54,11 +63,12 @@ if (isset($_POST['update'])) {
             <img src="../uploaded_img/<?= $fetch_products['image']; ?>" alt="">
             <span>update name</span>
             <input type="text" required placeholder="enter product name" name="name" maxlength="100" class="box" value="<?= $fetch_products['name']; ?>">
+            <textarea type="text" placeholder="enter product's description" name="description" maxlength="300" class="box"><?= $fetch_products['description']; ?></textarea>
             <span>update price</span>
             <input type="number" min="0" max="9999999999" required placeholder="enter product price" name="price" onkeypress="if(this.value.length == 10) return false;" class="box" value="<?= $fetch_products['price']; ?>">
             <span>update category</span>
             <select name="category" class="box" required>
-               <option selected value="<?= $fetch_products['category']; ?>"><?= $fetch_products['category']; ?></option>
+               <option selected value="<?= get_category($conn, 'name') ?>"><?= get_category($conn, 'name') ?></option>
                <option value="main dish">main dish</option>
                <option value="fast food">fast food</option>
                <option value="drinks">drinks</option>

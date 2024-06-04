@@ -31,18 +31,41 @@ if ($user_id === '') {
       ?>
                <div class="box">
                   <p>placed on : <span><?= $fetch_orders['placed_on']; ?></span></p>
-                  <p>name : <span><?= $fetch_orders['name']; ?></span></p>
-                  <p>email : <span><?= $fetch_orders['email']; ?></span></p>
-                  <p>number : <span><?= $fetch_orders['number']; ?></span></p>
-                  <p>address : <span><?= $fetch_orders['address']; ?></span></p>
-                  <p>payment method : <span><?= $fetch_orders['method']; ?></span></p>
+                  <p>name : <span><?= $fetch_profile['name']; ?></span></p>
+                  <p>email : <span><?= $fetch_profile['email']; ?></span></p>
+                  <p>number : <span><?= $fetch_profile['number']; ?></span></p>
+                  <p>address :
+                     <span>
+                        <?php
+                        $address = $conn->prepare("SELECT * FROM `address` WHERE id = ?");
+                        $address->execute([$fetch_profile['address_id']]);
+                        $fetch_address = $address->fetch(PDO::FETCH_ASSOC);
+
+                        $address_str = $fetch_address['country_name'] . ', ' . $fetch_address['state_name'] . ', ' . $fetch_address['city_name'] . ' - ' . $fetch_address['pin_code'];
+
+                        echo $address_str;
+                        ?>
+                     </span>
+                  </p>
+                  <p>payment method :
+                     <span>
+                        <?php
+                        $payment_method = $conn->prepare("SELECT * FROM `payment_method` WHERE id = ?");
+                        $payment_method->execute([$fetch_orders['payment_method_id']]);
+                        $fetch_payment_method = $payment_method->fetch(PDO::FETCH_ASSOC);
+            
+                        echo $fetch_payment_method['name']; 
+                        ?>
+                     </span>
+                  </p>
                   <p>your orders : <span><?= $fetch_orders['total_products']; ?></span></p>
                   <p>total price : <span>$<?= $fetch_orders['total_price']; ?>/-</span></p>
-                  <p> payment status : <span style="color:<?php if ($fetch_orders['payment_status'] == 'pending') {
-                                                               echo 'red';
-                                                            } else {
-                                                               echo 'green';
-                                                            }; ?>"><?= $fetch_orders['payment_status']; ?></span> </p>
+                  <p> payment status : <span style="color:
+                  <?php if ($fetch_orders['payment_status'] == 'pending') {
+                     echo 'red';
+                  } else {
+                     echo 'green';
+                  }; ?>"><?= $fetch_orders['payment_status']; ?></span> </p>
                </div>
       <?php
             }
