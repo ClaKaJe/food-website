@@ -5,8 +5,6 @@ $page = 'dashboard.php';
 include '../components/admin_header.php';
 ?>
 
-<!-- admin dashboard section starts  -->
-
 <section class="dashboard">
 
    <h1 class="heading">dashboard</h1>
@@ -30,7 +28,7 @@ include '../components/admin_header.php';
          ?>
          <h3><span>$</span><?= $total_pendings; ?><span>/-</span></h3>
          <p>total pendings</p>
-         <a href="placed_orders.php" class="btn">see orders</a>
+         <a href="placed_orders.php?payment_status=pending" class="btn">see pending orders</a>
       </div>
 
       <div class="box">
@@ -44,7 +42,7 @@ include '../components/admin_header.php';
          ?>
          <h3><span>$</span><?= $total_completes; ?><span>/-</span></h3>
          <p>total completes</p>
-         <a href="placed_orders.php" class="btn">see orders</a>
+         <a href="placed_orders.php?payment_status=completed" class="btn">see completed orders</a>
       </div>
 
       <div class="box">
@@ -106,9 +104,6 @@ include '../components/admin_header.php';
 
 </section>
 
-<!-- admin dashboard section ends -->
-
-<!-- custom js file link  -->
 <script src="../js/admin_script.js"></script>
 
 </body>

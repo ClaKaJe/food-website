@@ -14,7 +14,6 @@ if (isset($_POST['submit'])) {
    $number = $_POST['number'];
    $email = $_POST['email'];
    $method = $_POST['method'];
-   $address = $_POST['address'];
    $total_products = $_POST['total_products'];
    $total_price = $_POST['total_price'];
 
@@ -27,10 +26,12 @@ if (isset($_POST['submit'])) {
       $fetch_payment_method = $payment_method->fetch(PDO::FETCH_ASSOC);
 
       $insert_order = $conn->prepare("INSERT INTO `orders`(user_id, payment_method_id, total_products, total_price, payment_status) VALUES(?,?,?,?,?)");
-      $insert_order->execute([$user_id, $fetch_payement_method['id'], $total_products, $total_price, 'pending']);
+      $insert_order->execute([$user_id, $fetch_payment_method['id'], $total_products, $total_price, 'pending']);
 
       $delete_cart = $conn->prepare("DELETE FROM `cart` WHERE user_id = ?");
       $delete_cart->execute([$user_id]);
+
+      header('location:orders.php');
 
       $message[] = 'order placed successfully!';
    } else {
@@ -61,7 +62,6 @@ if (isset($_POST['submit'])) {
          if ($select_cart->rowCount() > 0) {
             while ($fetch_cart = $select_cart->fetch(PDO::FETCH_ASSOC)) {
                $cart_items[] = $fetch_cart['name'] . ' (' . $fetch_cart['price'] . ' x ' . $fetch_cart['quantity'] . ') - ';
-               $total_products = implode($cart_items);
                $grand_total += ($fetch_cart['price'] * $fetch_cart['quantity']);
          ?>
                <p><span class="name"><?= $fetch_cart['name']; ?></span><span class="price">$<?= $fetch_cart['price']; ?> x <?= $fetch_cart['quantity']; ?></span></p>
@@ -70,17 +70,11 @@ if (isset($_POST['submit'])) {
          } else {
             echo '<p class="empty">your cart is empty!</p>';
          }
+         $total_products = implode($cart_items);
          ?>
          <p class="grand-total"><span class="name">grand total :</span><span class="price">$<?= $grand_total; ?></span></p>
          <a href="cart.php" class="btn">veiw cart</a>
       </div>
-
-      <input type="hidden" name="total_products" value="<?= $total_products; ?>">
-      <input type="hidden" name="total_price" value="<?= $grand_total; ?>" value="">
-      <input type="hidden" name="name" value="<?= $fetch_profile['name'] ?>">
-      <input type="hidden" name="number" value="<?= $fetch_profile['number'] ?>">
-      <input type="hidden" name="email" value="<?= $fetch_profile['email'] ?>">
-      <input type="hidden" name="address" value="<?= $fetch_profile['address'] ?>">
 
       <div class="user-info">
          <h3>your info</h3>
@@ -97,7 +91,7 @@ if (isset($_POST['submit'])) {
                $address->execute([$fetch_profile['address_id']]);
                $fetch_address = $address->fetch(PDO::FETCH_ASSOC);
 
-               $address_str = $fetch_address['country_name'] . ', ' . $fetch_address['state_name'] . ', ' . $fetch_address['city_name'] . ' - ' . $fetch_address['pin_code'];
+               $address_str = $fetch_address['city_name'] . ' - ' . $fetch_address['postal_code'] . ', ' . $fetch_address['area_name'];
 
                echo $address_str;
                ?>
@@ -111,6 +105,8 @@ if (isset($_POST['submit'])) {
             <option value="paytm">paytm</option>
             <option value="paypal">paypal</option>
          </select>
+         <input type="number" hidden name="total_price" value="<?= $grand_total; ?>">
+         <input type="text" hidden name="total_products" value="<?= $total_products; ?>">
          <input type="submit" value="place order" class="btn" style="width:100%; background:var(--red); color:var(--white);" name="submit">
       </div>
 

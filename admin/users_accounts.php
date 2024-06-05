@@ -23,14 +23,26 @@ if (isset($_GET['delete'])) {
    <div class="box-container">
 
       <?php
-      $select_account = $conn->prepare("SELECT * FROM `users`");
+      $select_account = $conn->prepare("SELECT * FROM `users` ORDER BY registered_at DESC");
       $select_account->execute();
       if ($select_account->rowCount() > 0) {
          while ($fetch_accounts = $select_account->fetch(PDO::FETCH_ASSOC)) {
       ?>
             <div class="box">
-               <p> user id : <span><?= $fetch_accounts['id']; ?></span> </p>
-               <p> username : <span><?= $fetch_accounts['name']; ?></span> </p>
+               <p> <i class="fas fa-user"></i> username : <span><?= $fetch_accounts['name']; ?></span> </p>
+               <p> <i class="fas fa-phone"></i> number : <span><?= $fetch_accounts['number']; ?></span> </p>
+               <p> <i class="fas fa-envelope"></i> email : <span><?= $fetch_accounts['email']; ?></span> </p>
+               <p> <i class="fas fa-map-marker-alt"></i> address : <span>
+                     <?php
+                     $address = $conn->prepare("SELECT * FROM `address` WHERE id = ?");
+                     $address->execute([$fetch_accounts['address_id']]);
+                     $fetch_address = $address->fetch(PDO::FETCH_ASSOC);
+
+                     $address_str = $fetch_address['city_name'] . ' - ' . $fetch_address['postal_code'] . ', ' . $fetch_address['area_name'];
+
+                     echo $address_str;
+                     ?>
+                  </span> </p>
                <a href="users_accounts.php?delete=<?= $fetch_accounts['id']; ?>" class="delete-btn" onclick="return confirm('delete this account?');">delete</a>
             </div>
       <?php
@@ -44,9 +56,6 @@ if (isset($_GET['delete'])) {
 
 </section>
 
-<!-- user accounts section ends -->
-
-<!-- custom js file link  -->
 <script src="../js/admin_script.js"></script>
 
 </body>

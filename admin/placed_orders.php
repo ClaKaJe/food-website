@@ -21,8 +21,6 @@ if (isset($_GET['delete'])) {
 
 ?>
 
-<!-- placed orders section starts  -->
-
 <section class="placed-orders">
 
    <h1 class="heading">placed orders</h1>
@@ -30,8 +28,20 @@ if (isset($_GET['delete'])) {
    <div class="box-container">
 
       <?php
-      $select_orders = $conn->prepare("SELECT * FROM `orders` ORDER BY placed_on ASC");
-      $select_orders->execute();
+
+      if (isset($_GET['payment_status'])) {
+         $payment_status = $_GET['payment_status'];
+         $select_orders = $conn->prepare("SELECT * FROM `orders` WHERE payment_status = ? ORDER BY placed_on DESC");
+         $select_orders->execute([$payment_status]);
+      } else {
+         $select_orders = $conn->prepare("SELECT * FROM `orders` ORDER BY placed_on DESC");
+         $select_orders->execute();
+      }
+
+      // isset($_GET['payment_status']) ? $sql = "SELECT * FROM `orders` ORDER BY placed_on DESC WHERE payment_status = ?" : $sql = "SELECT * FROM `orders` ORDER BY placed_on DESC";
+      // $sql = "SELECT * FROM `orders` ORDER BY placed_on DESC";
+      // $select_orders = $conn->prepare($sql);
+      // $select_orders->execute();
       if ($select_orders->rowCount() > 0) {
          while ($fetch_orders = $select_orders->fetch(PDO::FETCH_ASSOC)) {
             $user = $conn->prepare("SELECT * FROM `users` WHERE id = ?");
@@ -50,7 +60,7 @@ if (isset($_GET['delete'])) {
                      $address->execute([$fetch_user['address_id']]);
                      $fetch_address = $address->fetch(PDO::FETCH_ASSOC);
 
-                     $address_str = $fetch_address['country_name'] . ', ' . $fetch_address['state_name'] . ', ' . $fetch_address['city_name'] . ' - ' . $fetch_address['pin_code'];
+                     $address_str = $fetch_address['city_name'] . ' - ' . $fetch_address['postal_code'] . ', ' . $fetch_address['area_name'];
 
                      echo $address_str;
                      ?>
@@ -92,9 +102,6 @@ if (isset($_GET['delete'])) {
 
 </section>
 
-<!-- placed orders section ends -->
-
-<!-- custom js file link  -->
 <script src="../js/admin_script.js"></script>
 
 </body>

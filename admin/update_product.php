@@ -41,10 +41,10 @@ if (isset($_POST['update'])) {
          $message[] = 'image updated!';
       }
    }
+
+   header('location:products.php');
 }
 ?>
-
-<!-- update product section starts  -->
 
 <section class="update-product">
 
@@ -78,7 +78,6 @@ if (isset($_POST['update'])) {
             <input type="file" name="image" class="box" accept="image/jpg, image/jpeg, image/png, image/webp">
             <div class="flex-btn">
                <input type="submit" value="update" class="btn" name="update">
-               <a href="products.php" class="option-btn">go back</a>
             </div>
          </form>
    <?php
@@ -90,9 +89,6 @@ if (isset($_POST['update'])) {
 
 </section>
 
-<!-- update product section ends -->
-
-<!-- custom js file link  -->
 <script src="../js/admin_script.js"></script>
 
 </body>

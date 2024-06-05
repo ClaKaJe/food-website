@@ -45,7 +45,7 @@ if (isset($_POST['send'])) {
       <form action="" method="post">
          <h3>tell us something!</h3>
          <input type="text" name="name" disabled maxlength="50" class="box" value="<?= $fetch_profile['name']; ?>" placeholder="enter your name" required>
-         <input type="number" name="number" disabled min="0" max="9999999999" class="box" value="<?= $fetch_profile['number']; ?>" placeholder="enter your number" required maxlength="10">
+         <input type="text" name="number" disabled class="box" value="<?= $fetch_profile['number']; ?>" placeholder="enter your number" required maxlength="20">
          <input type="email" name="email" disabled maxlength="50" class="box" placeholder="enter your email" value="<?= $fetch_profile['email']; ?>" required>
          <textarea name="msg" class="box" required placeholder="enter your message" maxlength="500" cols="30" rows="10"></textarea>
          <input type="submit" value="send message" name="send" class="btn">

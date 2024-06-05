@@ -10,9 +10,6 @@ if (isset($_POST['add_product'])) {
    $price = $_POST['price'];
    $category = $_POST['category'];
 
-   echo $category;
-   var_dump($message);
-
    $select_category_id = $conn->prepare("SELECT * FROM `categories` WHERE name = ?");
    $select_category_id->execute([$category]);
 
@@ -118,9 +115,6 @@ if (isset($_GET['delete'])) {
 
 </section>
 
-<!-- show products section ends -->
-
-<!-- custom js file link  -->
 <script src="../js/admin_script.js"></script>
 
 </body>

@@ -12,9 +12,6 @@ if ($user_id === '') {
 <section class="user-details">
 
    <div class="user">
-      <?php
-
-      ?>
       <img src="images/user-icon.png" alt="">
       <p><i class="fas fa-user"></i><span><span><?= $fetch_profile['name']; ?></span></span></p>
       <p><i class="fas fa-phone"></i><span><?= $fetch_profile['number']; ?></span></p>
@@ -28,7 +25,7 @@ if ($user_id === '') {
             $address->execute([$fetch_profile['address_id']]);
             $fetch_address = $address->fetch(PDO::FETCH_ASSOC);
 
-            $address_str = $fetch_address['country_name'] . ', ' . $fetch_address['state_name'] . ', ' . $fetch_address['city_name'] . ' - ' . $fetch_address['pin_code'];
+            $address_str = $fetch_address['city_name'] . ' - ' . $fetch_address['postal_code'] . ', ' . $fetch_address['area_name'];
 
             echo $address_str;
             ?>

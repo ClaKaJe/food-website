@@ -18,7 +18,7 @@
       <div class="box">
          <img src="images/map-icon.png" alt="">
          <h3>our address</h3>
-         <a href="#">ngoundéré, cameroon - 455</a>
+         <p>ngoundéré, cameroon - 455</p>
       </div>
 
       <div class="box">
